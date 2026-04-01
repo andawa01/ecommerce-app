@@ -48,6 +48,8 @@ export default function Home() {
             <View key={index} className='relative w-full h-48 bg-gray-200 overflow-hidden' style={{width: width - 32}}>
               <Image source={{ uri: banner.image }} className='w-full h-full' resizeMode='cover' />
 
+              <View className='absolute inset-0 bg-black/40' />
+
               <View className='absolute bottom-4 left-4 z-10'>
                 <Text className='text-white text-2xl font-bold'>{banner.title}</Text>
                 <Text className='text-white text-sm font-medium'>{banner.subtitle}</Text>
@@ -55,7 +57,6 @@ export default function Home() {
                   <Text className='text-primary text-xs font-bold'>Get Now</Text>
                 </TouchableOpacity>
               </View>
-              <View className='absolute inset-0 bg-black/40' />
             </View>
           ))}
         </ScrollView>
@@ -69,7 +70,7 @@ export default function Home() {
 
         {/* Categories */}
         <View className='mb-6'>
-          <View flex-row items-center justify-between mb-4>
+          <View className='flex-row items-center justify-between mb-4'>
             <Text className='text-primary text-xl font-bold'>Categories</Text>
           </View>
 
