@@ -14,7 +14,7 @@ const { width } = Dimensions.get('window');
 
 export default function ProductDetails() {
 
-    const { id } = useLocalSearchParams();
+    const { id } = useLocalSearchParams<{ id: string }>();
     const router = useRouter();
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
@@ -26,13 +26,14 @@ export default function ProductDetails() {
     const [activeImageIndex, setActiveImageIndex] = useState(0);
 
     const fetchProduct = async () => {
-        setProduct(dummyProducts.find(product => product._id === id) as any || null);
+        const found: any = dummyProducts.find((product) => product._id === id);
+        setProduct(found ?? null);
         setLoading(false);
     }
 
     useEffect(() => {
         fetchProduct();
-    }, []);
+    }, [id]);
 
     if (loading) {
         return (
@@ -54,14 +55,17 @@ export default function ProductDetails() {
 
     const handleAddToCart = () => {
         if (!selectedSize) {
-            Toast.show({
-                type: 'info',
-                text1: 'No Size Selected',
-                text2: 'Please select a size',
-            })
-            return;
+            const requiresSize = !!product.sizes?.length;
+            if (requiresSize && !selectedSize) {
+             Toast.show({
+                 type: 'info',
+                 text1: 'No Size Selected',
+                 text2: 'Please select a size',
+             })
+             return;
+         }
         }
-        addToCart(product, selectedSize || "");
+        addToCart(product, selectedSize ?? "");
     }
 
   return (
