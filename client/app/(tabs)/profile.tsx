@@ -1,18 +1,19 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
-import { dummyUser } from '@/assets/assets'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '@/components/Header'
 import { Ionicons } from '@expo/vector-icons'
 import { COLORS, PROFILE_MENU } from '@/constants'
+import { useClerk } from '@clerk/expo'
 
 export default function Profile() {
 
-  const {user} = {user: dummyUser}
+  const {user, signOut} = useClerk()
   const router = useRouter()
 
   const handleLogout = async () => {
+    await signOut();
     router.replace('/sign-in')
   }
 
@@ -42,7 +43,9 @@ export default function Profile() {
               <Image source={{uri: user.imageUrl}} className='size-20 border-2 border-white shadow-sm rounded-full' />
             </View>
             <Text className='text-xl font-bold text-primary'>{user.firstName + " " + user.lastName}</Text>
-            <Text className='text-sm text-secondary'>{user.emailAddresses[0].emailAddress}</Text>
+            <Text className='text-sm text-secondary'>
+             {user.emailAddresses?.[0]?.emailAddress ?? 'No email provided'}
+            </Text>
 
             {/* Admin Panel Button if user is admin */}
             {user.publicMetadata?.role === "admin" && (
