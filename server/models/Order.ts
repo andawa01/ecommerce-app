@@ -10,7 +10,7 @@ const orderItemSchema = new mongoose.Schema({
 })
 
 const orderSchema = new mongoose.Schema<IOrder>({
-    user: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, unique: true},
+    user: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
     orderNumber: {type: String, required: true, unique: true},
     items: [orderItemSchema],
     shippingAddress: {
