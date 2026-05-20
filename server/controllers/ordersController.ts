@@ -52,24 +52,36 @@ export const createOrder = async (req: Request, res: Response) => {
         // Verify stock and prepare order items
         const orderItems = [];
         for (const item of cart.items) {
-            const product = await Product.findById(item.product._id);
-            if (!product || product.stock < item.quantity) {
-                return res.status(400).json({
-                    success: false,
-                    message: `Insufficient stock for ${(item.product as any).name}`
-                })
-            }
-            orderItems.push({
-                product: item.product._id,
-                name: (item.product as any).name,
-                quantity: item.quantity,
-                price: item.price,
-                size: item.size
-            })
-            // Reduce stock
-            product.stock -= item.quantity;
-            await product.save();
-        }
+    const product = item.product;
+
+    if (!product || typeof product === "string") {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid product in cart"
+        });
+    }
+
+    const stockProduct = await Product.findById(product._id);
+
+    if (!stockProduct || stockProduct.stock < item.quantity) {
+        return res.status(400).json({
+            success: false,
+            message: `Insufficient stock for ${stockProduct?.name || "product"}`
+        });
+    }
+
+    orderItems.push({
+        product: stockProduct._id,
+        name: stockProduct.name,
+        quantity: item.quantity,
+        price: stockProduct.price,
+        size: item.size
+    });
+
+    stockProduct.stock -= item.quantity;
+    await stockProduct.save();
+}
+
         const subtotal = cart.totalAmount;
         const shippingCost = 2;
         const tax = 0;

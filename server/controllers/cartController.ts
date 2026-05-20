@@ -79,7 +79,7 @@ export const updateCartItem = async (req: Request, res: Response) => {
         if (!cart) {
             return res.status(404).json({success: false, message: "Cart not found"});
         }
-
+        
         const item = cart.items.find((item) => item.product.toString() === productId && item.size === size);
 
         if (!item) {

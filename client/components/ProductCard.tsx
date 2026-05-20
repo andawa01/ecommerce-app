@@ -40,7 +40,7 @@ export default function ProductCard({product}: ProductCardProps) {
                 </View>
                 <Text className='text-primary font-medium text-sm mb-1' numberOfLines={1}>{product.name}</Text>
                 <View className='flex-row items-center'>
-                    <Text className='text-primary font-bold text-base'>KSH{product.price.toFixed(2)}</Text>
+                    <Text className='text-primary font-bold text-base'>${product.price.toFixed(2)}</Text>
                 </View>
             </View>
         </TouchableOpacity>

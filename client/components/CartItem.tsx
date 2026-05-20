@@ -31,15 +31,29 @@ export default function CartItem({item, onRemove, onUpdateQuantity}: CartItemPro
                 <Text className='text-primary font-bold text-base'>${item.product.price.toFixed(2)}</Text>
 
                 <View className='flex-row items-center bg-surface rounded-full px-2 py-1'>
-                    <TouchableOpacity className='p-1' onPress={()=>onUpdateQuantity && onUpdateQuantity(item.quantity - 1)}>
-                        <Ionicons name="remove" size={16} color={COLORS.primary} />
-                    </TouchableOpacity>
+                    <TouchableOpacity
+  className='p-1'
+  onPress={() =>
+    onUpdateQuantity &&
+    onUpdateQuantity(item.quantity - 1, item.size)
+  }
+>
+  <Ionicons name="remove" size={16} color={COLORS.primary} />
+</TouchableOpacity>
 
-                    <Text className='text-primary font-medium mx-3'>{item.quantity}</Text>
-                    
-                    <TouchableOpacity className='p-1' onPress={()=>onUpdateQuantity && onUpdateQuantity(item.quantity + 1)}>
-                        <Ionicons name="add" size={16} color={COLORS.primary} />
-                    </TouchableOpacity>
+<Text className='text-primary font-medium mx-3'>
+  {item.quantity}
+</Text>
+
+<TouchableOpacity
+  className='p-1'
+  onPress={() =>
+    onUpdateQuantity &&
+    onUpdateQuantity(item.quantity + 1, item.size)
+  }
+>
+  <Ionicons name="add" size={16} color={COLORS.primary} />
+</TouchableOpacity>
                 </View>
             </View>
         </View>
